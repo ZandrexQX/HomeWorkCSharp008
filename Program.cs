@@ -127,50 +127,108 @@
 
 // /*--------------------------------------------*/
 
+// Console.Clear();
+// Console.WriteLine("Task 60");
+// Console.WriteLine("------");
+
+// void InputMatrixTriple(int[,,] matrix)
+// {
+//     for (int i = 0; i < matrix.GetLength(0); i++){
+//         for (int j = 0; j < matrix.GetLength(1); j++){
+//             for (int k = 0; k < matrix.GetLength(2); k++){
+//                  int num = new Random().Next(10,100);
+//                  while (CheckMatrixTriple(matrix, num))
+//                     num = new Random().Next(10,100);
+//                  matrix[i, j, k] = num;
+//             }
+//         }
+//     }
+// }
+
+// bool CheckMatrixTriple(int[,,] matrix, int num)
+// {
+//     for (int i = 0; i < matrix.GetLength(0); i++)
+//     {
+//         for (int j = 0; j < matrix.GetLength(1); j++){
+//             for (int k = 0; k < matrix.GetLength(2); k++)
+//                 if (matrix [i,j,k] == num) return true;
+//         }  
+//     }
+//     return false;
+// }
+
+// void PrintMatrixTriple(int[,,] matrix)
+// {
+//     for (int i = 0; i < matrix.GetLength(0); i++)
+//     {
+//         for (int j = 0; j < matrix.GetLength(1); j++){
+//             for (int k = 0; k < matrix.GetLength(2); k++)
+//                 Console.Write($"{matrix[i, j, k]} ({i},{j},{k}) \t");
+//             Console.WriteLine();
+//         }
+//     }
+// }
+// int[,,] matrixTriple = new int[2, 2, 2];
+// InputMatrixTriple(matrixTriple );
+// PrintMatrixTriple(matrixTriple );
+
+// Console.ReadLine();
+
+// /*--------------------------------------------*/
+
 Console.Clear();
-Console.WriteLine("Task 60");
+Console.WriteLine("Task 61");
 Console.WriteLine("------");
 
-void InputMatrixTriple(int[,,] matrix)
+void InputMatrixPascal(int[,] matrix)
 {
-    for (int i = 0; i < matrix.GetLength(0); i++){
+    for (int i = 0; i < matrix.GetLength(0); i++)
+    {
         for (int j = 0; j < matrix.GetLength(1); j++){
-            for (int k = 0; k < matrix.GetLength(2); k++){
-                 int num = new Random().Next(10,100);
-                 while (CheckMatrixTriple(matrix, num))
-                    num = new Random().Next(10,100);
-                 matrix[i, j, k] = num;
+            if(i == 0 && j == matrix.GetLength(1)/2) matrix[i,j] = 1;
+            if((j == 0 || j == matrix.GetLength(1)-1) 
+                && i == matrix.GetLength(0)-1) matrix[i,j] = 1;
+            if(matrix.GetLength(0)%2 == 0){
+                if(i>=1 && j <=matrix.GetLength(1)-2 && j>0){
+                    if (i%2==0 && (j+i)%2!=0) matrix[i,j] =
+                        matrix[i-1,j-1]
+                    + matrix[i-1,j+1];
+                    if (i%2!=0 && (j+i)%2!=0) matrix[i,j] =
+                        matrix[i-1,j-1]
+                    + matrix[i-1,j+1];
+                }
+            }
+            else{
+                if(i>=1 && j <=matrix.GetLength(1)-2 && j>0){
+                    if (i%2==0 && (j+i)%2==0) matrix[i,j] =
+                        matrix[i-1,j-1]
+                    + matrix[i-1,j+1];
+                    if (i%2!=0 && (j+i)%2==0) matrix[i,j] =
+                        matrix[i-1,j-1]
+                    + matrix[i-1,j+1];
+                }
             }
         }
     }
 }
 
-bool CheckMatrixTriple(int[,,] matrix, int num)
+void PrintMatrixPascal(int[,] matrix)
 {
     for (int i = 0; i < matrix.GetLength(0); i++)
     {
         for (int j = 0; j < matrix.GetLength(1); j++){
-            for (int k = 0; k < matrix.GetLength(2); k++)
-                if (matrix [i,j,k] == num) return true;
-        }  
+            if(matrix[i, j] == 0) Console.Write("   ");
+            else Console.Write($" {matrix[i, j]} ");
+        }
+        Console.WriteLine();
     }
-    return false;
 }
 
-void PrintMatrixTriple(int[,,] matrix)
-{
-    for (int i = 0; i < matrix.GetLength(0); i++)
-    {
-        for (int j = 0; j < matrix.GetLength(1); j++){
-            for (int k = 0; k < matrix.GetLength(2); k++)
-                Console.Write($"{matrix[i, j, k]} ({i},{j},{k}) \t");
-            Console.WriteLine();
-        }
-    }
-}
-int[,,] matrixTriple = new int[2, 2, 2];
-InputMatrixTriple(matrixTriple );
-PrintMatrixTriple(matrixTriple );
+Console.Write("Введите число строк: ");
+int size4 = Convert.ToInt32(Console.ReadLine());
+int[,] matrixPascal = new int[size4, size4+size4-1];
+InputMatrixPascal(matrixPascal);
+PrintMatrixPascal(matrixPascal);
 
 Console.ReadLine();
 
