@@ -105,16 +105,11 @@ int [,] MultiplyMatrix(int [,] matrix1, int [,] matrix2){
     return newMatrix;
 }
 
-Console.Write("Введите размер квадратного массива: ");
-int[] size3 = Console.ReadLine().Split().Select(x => int.Parse(x)).ToArray();
-while (size3[0] != size3[1])
-{
-    Console.Write("Введите размер квадратного массива: ");
-    size3 = Console.ReadLine().Split().Select(x => int.Parse(x)).ToArray();
-}
+Console.Write("Введите размер (одно число) квадратного массива: ");
+int size3 = Convert.ToInt32(Console.ReadLine());
 
-int[,] matrix31 = new int[size3[0], size3[1]];
-int[,] matrix32 = new int[size3[0], size3[1]];
+int[,] matrix31 = new int[size3, size3];
+int[,] matrix32 = new int[size3, size3];
 InputMatrixInt(matrix31);
 InputMatrixInt(matrix32);
 PrintMatrixInt(matrix31);
@@ -240,17 +235,43 @@ Console.WriteLine("------");
 
 void InputMatrixSpiral(int[,] matrix)
 {
-    for (int i = 0; i < matrix.GetLength(0); i++)
-    {
-        for (int j = 0; j < matrix.GetLength(1); j++)
-            matrix[i, j] = new Random().Next(1,10);
+    int i = 0, j = 0, k = 0, count = 1, num = matrix.GetLength(0)*matrix.GetLength(0);
+    bool right = true, top = false;
+    while(num > 0){
+        matrix[i,j] = count;
+        count++;
+
+        if (j == matrix.GetLength(0)-1-k && right){
+            right = !right;
+        }
+        
+        if (i == matrix.GetLength(0)-1-k && !top){
+            top = !top;
+            k++;
+        }
+        
+        if(right && !top) j++;
+        if(!right && top) j--;
+        if(!right && !top) i++;
+        if(right && top) i--;
+        if(j == k-2 && !right){
+            j++;
+            i--;
+            right = !right;
+        }
+        if(i == k-1 && top){
+            i++;
+            j++;
+            top = !top;
+        }
+        num--;
     }
 }
 
-Console.Write("Введите размер массива: ");
+Console.Write("Введите размер (одно число) квадратного массива: ");
 int size5 = Convert.ToInt32(Console.ReadLine());
 int[,] matrixSpiral = new int[size5, size5];
-InputMatrixInt(matrixSpiral);
+InputMatrixSpiral(matrixSpiral);
 PrintMatrixInt(matrixSpiral);
 
 Console.ReadLine();
